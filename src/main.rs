@@ -1,3 +1,7 @@
+mod borrow_book;
+mod display_booklist;
+mod return_book;
+
 use std::io::{stdin, stdout, Write};
 
 fn read_input(input: &mut String) {
@@ -25,15 +29,12 @@ fn main() {
             println!("Please enter a valid option");
             continue;
         }
-
-        let result = match operation {
-            '1' => '1',
-            '2' => '2',
+        match operation {
+            '1' => borrow_book::borrow_book(),
+            '2' => return_book::return_book(),
             '3' => break,
             _ => panic!("error in operator"),
         };
-
-        println!("You chose {}\n", result);
     }
     println!("Good Bye");
 }
