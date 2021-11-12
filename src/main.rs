@@ -21,7 +21,7 @@ fn main() {
         );
         read_input(&mut operation);
 
-        let operation: char = operation.trim().chars().next().unwrap();
+        let operation: char = operation.trim().chars().next().unwrap_or('8');
 
         let operater = String::from("123");
 
