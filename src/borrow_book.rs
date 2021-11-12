@@ -8,6 +8,4 @@ pub fn borrow_book() {
 
     println!("Enter borrower name: ");
     read_input(&mut borrower_name);
-
-    println!("{}", borrower_name);
 }
