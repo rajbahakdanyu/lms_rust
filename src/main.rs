@@ -29,6 +29,7 @@ fn read_booklist() {
                     temp2[0], temp2[1], temp2[2], temp2[3], temp2[4]
                 );
             }
+            println!("");
         }
     }
 }
@@ -41,7 +42,9 @@ fn main() {
     loop {
         let mut operation = String::new();
 
-        println!("Press \n1. For Renting Book \n2. For Returning \n3. To Exit.");
+        println!(
+            "Select an action by pressing \n1. For Renting Book \n2. For Returning \n3. To Exit."
+        );
         read_input(&mut operation);
 
         let operation: char = operation.trim().chars().next().unwrap();
@@ -60,7 +63,7 @@ fn main() {
             _ => panic!("error in operator"),
         };
 
-        println!("You chose {}", result);
+        println!("You chose {}\n", result);
     }
     println!("Good Bye");
 }
