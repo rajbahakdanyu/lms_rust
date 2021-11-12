@@ -22,7 +22,17 @@ fn read_booklist() {
     let mut s = String::new();
     match file.read_to_string(&mut s) {
         Err(why) => panic!("couldn't read {}: {}", display, why),
-        Ok(_) => println!("Current Selection:\n{}", s),
+        Ok(_) => {
+            let temp: Vec<&str> = s.split('\n').collect();
+            println!("Book Id\tBook Name\tAuthor\t\tQuantity\tPrice");
+            for elem in temp {
+                let temp2: Vec<&str> = elem.split(',').collect();
+                println!(
+                    "{}\t{}\t{}\t{}\t\t{}",
+                    temp2[0], temp2[1], temp2[2], temp2[3], temp2[4]
+                );
+            }
+        }
     }
 
     // `file` goes out of scope, and the "hello.txt" file gets closed
@@ -31,9 +41,9 @@ fn read_booklist() {
 fn main() {
     println!("Welcome to the Library of Alexandria!");
     println!("-------------------------------------");
+    read_booklist();
 
     loop {
-        read_booklist();
         let mut operation = String::new();
 
         println!("Press \n1. For Renting Book \n2. For Returning \n3. To Exit.");
