@@ -1,13 +1,7 @@
 mod borrow_book;
 mod display_booklist;
 mod return_book;
-
-use std::io::{stdin, stdout, Write};
-
-fn read_input(input: &mut String) {
-    stdout().flush().expect("failed to flush");
-    stdin().read_line(input).expect("failed to read");
-}
+mod utils;
 
 fn main() {
     println!("Welcome to the Library of Alexandria!");
@@ -17,9 +11,9 @@ fn main() {
         let mut operation = String::new();
 
         println!(
-            "Select an action by pressing \n1. For Renting Book \n2. For Returning \n3. To Exit"
+            "Select an action by pressing \n1. For Borrowing a Book \n2. For Returning a Book \n3. To Exit"
         );
-        read_input(&mut operation);
+        utils::read_input(&mut operation);
 
         let operation: char = operation.trim().chars().next().unwrap_or('8');
 
