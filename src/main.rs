@@ -1,5 +1,3 @@
-mod display_booklist;
-
 use std::io::{stdin, stdout, Write};
 
 fn read_input(input: &mut String) {
@@ -10,7 +8,6 @@ fn read_input(input: &mut String) {
 fn main() {
     println!("Welcome to the Library of Alexandria!");
     println!("-------------------------------------");
-    display_booklist::read_booklist();
 
     loop {
         let mut operation = String::new();
