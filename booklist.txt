@@ -1,0 +1,5 @@
+1,Harry Potter,JK Rowling,20,2
+2,Start With Why,Simon Sinek,10,1.5
+3,Think Python,AB Downey,20,3.5
+4,Game Of Thrones,GRR Martin,5,4
+5,Head First Java,Kathy Sierra,10,2.5
