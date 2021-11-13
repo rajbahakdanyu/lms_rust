@@ -11,16 +11,28 @@ pub fn borrow_book() {
     println!("Enter borrower name: ");
     read_input(&mut borrower_name);
 
-    match fs::read_to_string("namelist.txt") {
-        Err(why) => panic!("Error: {}", why),
-        Ok(s) => {
-            let temp: Vec<&str> = s.split("\r\n").collect();
-
-            if temp.iter().any(|&i| i == borrower_name.trim()) {
-                println!("Old borrower");
-            } else {
-                println!("New borrower");
+    if borrower_name.trim() != "" {
+        match fs::read_to_string("namelist.txt") {
+            Err(why) => panic!("Error: {}", why),
+            Ok(s) => {
+                let temp: Vec<&str> = s.split("\r\n").collect();
+                if temp.iter().any(|&i| i == borrower_name.trim()) {
+                    old_borrower()
+                } else {
+                    new_borrower()
+                }
             }
         }
+    } else {
+        println!("Please enter a name");
+        borrow_book();
     }
+}
+
+fn old_borrower() {
+    println!("Old borrower");
+}
+
+fn new_borrower() {
+    println!("New borrower");
 }
