@@ -14,7 +14,13 @@ pub fn borrow_book() {
     match fs::read_to_string("namelist.txt") {
         Err(why) => panic!("Error: {}", why),
         Ok(s) => {
-            println!("{}", s);
+            let temp: Vec<&str> = s.split("\n\t").collect();
+
+            if temp.iter().any(|&i| i == borrower_name) {
+                println!("Yes");
+            } else {
+                println!("Oh no")
+            }
         }
     }
 }
