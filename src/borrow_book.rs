@@ -17,9 +17,9 @@ pub fn borrow_book() {
             let temp: Vec<&str> = s.split("\r\n").collect();
 
             if temp.iter().any(|&i| i == borrower_name.trim()) {
-                println!("Yes");
+                println!("Old borrower");
             } else {
-                println!("Oh no")
+                println!("New borrower");
             }
         }
     }
