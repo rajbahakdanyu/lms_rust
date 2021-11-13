@@ -1,6 +1,8 @@
 use crate::display_booklist::read_booklist;
 use crate::utils::read_input;
 
+use std::fs;
+
 pub fn borrow_book() {
     println!("");
     read_booklist();
@@ -8,4 +10,11 @@ pub fn borrow_book() {
 
     println!("Enter borrower name: ");
     read_input(&mut borrower_name);
+
+    match fs::read_to_string("namelist.txt") {
+        Err(why) => panic!("Error: {}", why),
+        Ok(s) => {
+            println!("{}", s);
+        }
+    }
 }
