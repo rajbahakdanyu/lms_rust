@@ -1,6 +1,7 @@
 use crate::display_booklist::read_booklist;
 use crate::utils::read_input;
 
+use regex::Regex;
 use std::fs;
 
 pub fn borrow_book() {
@@ -32,17 +33,21 @@ fn old_borrower(borrower_name: &str) {
         Err(why) => panic!("Error: {}", why),
         Ok(s) => {
             let temp: Vec<&str> = s.split("\n").collect();
-
+            let re = Regex::new(r"(^[0-9]*$)").unwrap();
             let mut book_id = String::new();
             println!("");
             read_booklist();
             println!("Enter book id: ");
             read_input(&mut book_id);
 
-            for elem in temp {
-                let temp2: Vec<&str> = elem.split(",").collect();
+            if re.is_match(book_id.trim()) {
+                for elem in temp {
+                    let temp2: Vec<&str> = elem.split(",").collect();
 
-                println!("{:?}", temp2);
+                    println!("{:?}", temp2);
+                }
+            } else {
+                println!("Book Id should be a number");
             }
         }
     }
