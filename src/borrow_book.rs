@@ -41,13 +41,18 @@ fn old_borrower(borrower_name: &str) {
             read_input(&mut book_id);
 
             if re.is_match(book_id.trim()) {
+                let mut check_book = false;
                 for elem in temp {
                     let temp2: Vec<&str> = elem.split(",").collect();
-
-                    println!("{:?}", temp2);
+                    if temp2.iter().any(|&i| i == book_id.trim()) {
+                        check_book = true;
+                    }
+                }
+                if check_book {
+                    println!("{} has already borrowed this book", borrower_name);
                 }
             } else {
-                println!("Book Id should be a number");
+                println!("Book Id should be a number\n");
             }
         }
     }
