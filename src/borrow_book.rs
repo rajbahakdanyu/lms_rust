@@ -70,7 +70,7 @@ fn old_borrower(borrower_name: &str) {
 
                     if check_available {
                         if chosen_book[3].to_string().parse::<i32>().unwrap() > 0 {
-                            println!("User can borrow this book\n");
+                            old_write(borrower_name, chosen_book);
                         } else {
                             println!("{} is out of stock\n", chosen_book[1]);
                         }
@@ -88,6 +88,10 @@ fn old_borrower(borrower_name: &str) {
             }
         }
     }
+}
+
+fn old_write(borrower_name: &str, book: Vec<&str>) {
+    println!("{} can borrow {}\n", borrower_name, book[1]);
 }
 
 fn new_borrower() {
