@@ -69,12 +69,16 @@ fn old_borrower(borrower_name: &str) {
                     }
 
                     if check_available {
-                        println!("User can borrow this book\n {:?}", chosen_book);
+                        if chosen_book[3].to_string().parse::<i32>().unwrap() > 0 {
+                            println!("User can borrow this book\n");
+                        } else {
+                            println!("Chosen book is out of stock\n");
+                        }
                     } else {
-                        println!("User has already borrowed this book");
+                        println!("User has already borrowed this book\n");
                     }
                 } else {
-                    println!("Book does not exit");
+                    println!("Book does not exit\n");
                 }
             } else {
                 println!("Book Id should be a number\n");

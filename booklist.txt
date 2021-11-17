@@ -3,3 +3,4 @@
 3,Think Python,AB Downey,19,3.5
 4,Game Of Thrones,GRR Martin,4,4
 5,Head First Java,Kathy Sierra,9,2.5
+6,Hamlet,William Shakespeare,0,2
