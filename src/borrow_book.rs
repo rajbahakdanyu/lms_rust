@@ -45,6 +45,7 @@ fn old_borrower(borrower_name: &str) {
                 let mut check_book = false;
                 let mut check_available = true;
                 let mut book_name = String::new();
+                let mut chosen_book = Vec::new();
 
                 // Check if book exists in book list
                 for book in booklist {
@@ -52,7 +53,8 @@ fn old_borrower(borrower_name: &str) {
 
                     if each_book[0] == book_id.trim() {
                         check_book = true;
-                        book_name = each_book[1].to_string();
+                        chosen_book = each_book;
+                        book_name = chosen_book[1].to_string();
                     }
                 }
 
@@ -67,9 +69,9 @@ fn old_borrower(borrower_name: &str) {
                     }
 
                     if check_available {
-                        println!("User can borrow this book");
+                        println!("User can borrow this book\n {:?}", chosen_book);
                     } else {
-                        println!("User cannot borrow this book");
+                        println!("User has already borrowed this book");
                     }
                 } else {
                     println!("Book does not exit");
