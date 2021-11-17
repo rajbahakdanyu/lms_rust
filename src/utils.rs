@@ -33,3 +33,21 @@ pub fn read_booklist() {
         }
     }
 }
+
+pub fn get_booklist() -> String {
+    let path = Path::new("booklist.txt");
+    let display = path.display();
+
+    let mut file = match File::open(&path) {
+        Err(why) => panic!("couldn't open {}: {}", display, why),
+        Ok(file) => file,
+    };
+
+    let mut s = String::new();
+    match file.read_to_string(&mut s) {
+        Err(why) => panic!("couldn't read {}: {}", display, why),
+        Ok(_) => {
+            return s;
+        }
+    }
+}

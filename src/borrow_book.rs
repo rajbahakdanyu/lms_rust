@@ -1,4 +1,4 @@
-use crate::utils::{read_booklist, read_input};
+use crate::utils::{get_booklist, read_booklist, read_input};
 
 use regex::Regex;
 use std::fs;
@@ -38,6 +38,11 @@ fn old_borrower(borrower_name: &str) {
             read_booklist();
             println!("Enter book id: ");
             read_input(&mut book_id);
+
+            let s = get_booklist();
+
+            let booklist: Vec<&str> = s.trim().split("\r\n").collect();
+            println!("{:?}", booklist);
 
             if re.is_match(book_id.trim()) {
                 let mut check_book = false;
