@@ -44,7 +44,6 @@ fn old_borrower(borrower_name: &str) {
             if re.is_match(book_id.trim()) {
                 let mut check_book = false;
                 let mut check_available = true;
-                let mut book_name = String::new();
                 let mut chosen_book = Vec::new();
 
                 // Check if book exists in book list
@@ -54,7 +53,6 @@ fn old_borrower(borrower_name: &str) {
                     if each_book[0] == book_id.trim() {
                         check_book = true;
                         chosen_book = each_book;
-                        book_name = chosen_book[1].to_string();
                     }
                 }
 
@@ -63,7 +61,9 @@ fn old_borrower(borrower_name: &str) {
                     for elem in temp {
                         let temp2: Vec<&str> = elem.split(",").collect();
 
-                        if temp2[0] == book_name.trim() && temp2[4] == "not returned" {
+                        if temp2[0] == chosen_book[1].to_string().trim()
+                            && temp2[4] == "not returned"
+                        {
                             check_available = false;
                         }
                     }
