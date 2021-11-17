@@ -2,6 +2,8 @@ use crate::utils::{get_booklist, read_booklist, read_input};
 
 use regex::Regex;
 use std::fs;
+use std::fs::OpenOptions;
+use std::io::Write;
 
 pub fn borrow_book() {
     let mut borrower_name = String::new();
@@ -91,7 +93,29 @@ fn old_borrower(borrower_name: &str) {
 }
 
 fn old_write(borrower_name: &str, book: Vec<&str>) {
-    println!("{} can borrow {}\n", borrower_name, book[1]);
+    println!("The price for {} is {}", book[1], book[4]);
+
+    let mut paid = String::new();
+    println!("Has total amount been paid(y/n)?");
+    read_input(&mut paid);
+    if paid.trim().to_lowercase() == "y" {
+        let mut file = OpenOptions::new()
+            .write(true)
+            .append(true)
+            .open(format!("members/{}.txt", borrower_name))
+            .unwrap();
+
+        file.write_all(
+            format!(
+                "{},{},09-01-19 19:53,19-01-19 19:53,not returned\n",
+                book[1], book[4]
+            )
+            .as_bytes(),
+        )
+        .unwrap();
+    } else {
+        println!("Book was not borrowed");
+    }
 }
 
 fn new_borrower() {
