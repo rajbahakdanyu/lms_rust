@@ -31,7 +31,9 @@ fn old_borrower(borrower_name: &str) {
     match fs::read_to_string(format!("members/{}.txt", borrower_name)) {
         Err(why) => panic!("Error: {}", why),
         Ok(s) => {
+            let list = get_booklist();
             let temp: Vec<&str> = s.split("\n").collect();
+            let booklist: Vec<&str> = list.trim().split("\r\n").collect();
             let re = Regex::new(r"(^[0-9]*$)").unwrap();
             let mut book_id = String::new();
             println!("");
@@ -39,21 +41,38 @@ fn old_borrower(borrower_name: &str) {
             println!("Enter book id: ");
             read_input(&mut book_id);
 
-            let s = get_booklist();
-
-            let booklist: Vec<&str> = s.trim().split("\r\n").collect();
-            println!("{:?}", booklist);
-
             if re.is_match(book_id.trim()) {
                 let mut check_book = false;
-                for elem in temp {
-                    let temp2: Vec<&str> = elem.split(",").collect();
-                    if temp2.iter().any(|&i| i == book_id.trim()) {
+                let mut check_available = true;
+                let mut book_name = String::new();
+
+                // Check if book exists in book list
+                for book in booklist {
+                    let each_book: Vec<&str> = book.split(",").collect();
+
+                    if each_book[0] == book_id.trim() {
                         check_book = true;
+                        book_name = each_book[1].to_string();
                     }
                 }
+
                 if check_book {
-                    println!("{} has already borrowed this book", borrower_name);
+                    // Check if user has already borrowed this book
+                    for elem in temp {
+                        let temp2: Vec<&str> = elem.split(",").collect();
+
+                        if temp2[0] == book_name.trim() && temp2[4] == "not returned" {
+                            check_available = false;
+                        }
+                    }
+
+                    if check_available {
+                        println!("User can borrow this book");
+                    } else {
+                        println!("User cannot borrow this book");
+                    }
+                } else {
+                    println!("Book does not exit");
                 }
             } else {
                 println!("Book Id should be a number\n");
