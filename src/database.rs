@@ -44,14 +44,14 @@ pub fn database(return_type: String, book: Vec<&str>) {
         for elem in booklist {
             let temp: Vec<&str> = elem.trim().split(",").collect();
 
-            if temp[0] == book[0] {
+            if temp[1].to_lowercase() == book[0].to_lowercase() {
                 file.write(
                     format!(
                         "{},{},{},{},{}\n",
                         temp[0],
                         temp[1],
                         temp[2],
-                        &(book[3].to_string().parse::<i32>().unwrap() + 1).to_string(),
+                        &(temp[3].to_string().parse::<i32>().unwrap() + 1).to_string(),
                         temp[4],
                     )
                     .as_bytes(),
@@ -68,6 +68,6 @@ pub fn database(return_type: String, book: Vec<&str>) {
                 .unwrap();
             }
         }
-        println!("{} returned successfully\n", book[1]);
+        println!("{} returned successfully\n", book[0]);
     }
 }

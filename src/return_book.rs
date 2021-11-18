@@ -1,6 +1,12 @@
-use std::fs;
+use std::{
+    fs::{self, OpenOptions},
+    io::Write,
+};
 
-use crate::utils::read_input;
+use crate::{
+    database::database,
+    utils::{get_return_list, read_input},
+};
 
 pub fn return_book() {
     let mut borrower_name = String::new();
@@ -95,7 +101,35 @@ fn book_return(name: &str, book: String, return_list: Vec<&str>) {
     }
 
     if paid.trim() == "y" {
-        println!("Book was returned");
+        let list = get_return_list(name.to_string());
+        let booklist: Vec<&str> = list.trim().split("\r\n").collect();
+        let mut file = OpenOptions::new()
+            .write(true)
+            .truncate(true)
+            .open(format!("members/{}.txt", name.trim()))
+            .unwrap();
+
+        for elem in booklist {
+            let temp: Vec<&str> = elem.trim().split(",").collect();
+
+            if temp[0].to_lowercase() == book.trim().to_lowercase() && temp[4] == "not returned" {
+                file.write(
+                    format!("{},{},{},{},returned\n", temp[0], temp[1], temp[2], temp[3])
+                        .as_bytes(),
+                )
+                .unwrap();
+            } else {
+                file.write(
+                    format!(
+                        "{},{},{},{},{}\n",
+                        temp[0], temp[1], temp[2], temp[3], temp[4]
+                    )
+                    .as_bytes(),
+                )
+                .unwrap();
+            }
+        }
+        database("r".to_string(), return_list);
     } else {
         println!("Book was not returned");
     }

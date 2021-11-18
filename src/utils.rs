@@ -51,3 +51,18 @@ pub fn get_booklist() -> String {
         }
     }
 }
+
+pub fn get_return_list(name: String) -> String {
+    let mut file = match File::open(format!("members/{}.txt", name.trim())) {
+        Err(why) => panic!("couldn't open: {}", why),
+        Ok(file) => file,
+    };
+
+    let mut s = String::new();
+    match file.read_to_string(&mut s) {
+        Err(why) => panic!("couldn't read: {}", why),
+        Ok(_) => {
+            return s;
+        }
+    }
+}
