@@ -27,7 +27,7 @@ pub fn return_book() {
                     let temp: Vec<&str> = s.split("\r\n").collect();
                     println!("\nBook name\t\tPrice($)\tBorrow date\t\tDeadline\t\tStatus");
 
-                    for elem in temp {
+                    for elem in &temp {
                         if elem.len() > 0 {
                             let temp2: Vec<&str> = elem.split(',').collect();
 
@@ -40,13 +40,42 @@ pub fn return_book() {
                         }
                     }
                     println!("");
+                    let mut book_name = String::new();
+                    let mut check_book = true;
+                    let mut return_list = Vec::new();
+
+                    println!("Enter book name:");
+                    read_input(&mut book_name);
+
+                    for elem in temp {
+                        let temp2: Vec<&str> = elem.split(',').collect();
+
+                        if elem.len() > 0 {
+                            if temp2[0].to_lowercase() == book_name.trim().to_lowercase()
+                                && temp2[4] == "not returned"
+                            {
+                                check_book = false;
+                                return_list = temp2;
+                            }
+                        }
+                    }
+
+                    if check_book {
+                        println!("{} has not borrowed {}\n", borrower_name.trim(), book_name);
+                    } else {
+                        book_return(borrower_name.trim(), book_name, return_list);
+                    }
                 }
             }
         } else {
-            println!("{} has not borrowed any books", borrower_name.trim());
+            println!("{} has not borrowed any books\n", borrower_name.trim());
         }
     } else {
         println!("Please enter a name");
         return_book();
     }
+}
+
+fn book_return(name: &str, book: String, return_list: Vec<&str>) {
+    println!("Book returned");
 }
