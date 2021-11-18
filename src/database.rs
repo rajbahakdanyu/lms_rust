@@ -5,17 +5,18 @@ use crate::utils::get_booklist;
 pub fn database(return_type: String, book: Vec<&str>) {
     let list = get_booklist();
     let booklist: Vec<&str> = list.trim().split("\r\n").collect();
-
     if return_type == "b" {
         let mut file = OpenOptions::new()
             .write(true)
-            .open(format!("booklist.txt"))
+            .truncate(true)
+            .open("booklist.txt")
             .unwrap();
 
         for elem in booklist {
             let temp: Vec<&str> = elem.trim().split(",").collect();
+            println!("{:?}", temp);
             if temp[0] == book[0] {
-                file.write_all(
+                file.write(
                     format!(
                         "{},{},{},{},{}\n",
                         temp[0],
@@ -28,7 +29,7 @@ pub fn database(return_type: String, book: Vec<&str>) {
                 )
                 .unwrap();
             } else {
-                file.write_all(
+                file.write(
                     format!(
                         "{},{},{},{},{}\n",
                         temp[0], temp[1], temp[2], temp[3], temp[4],
