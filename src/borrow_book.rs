@@ -1,5 +1,6 @@
 use crate::utils::{get_booklist, read_booklist, read_input};
 
+use chrono::Duration;
 use regex::Regex;
 use std::fs;
 use std::fs::OpenOptions;
@@ -99,20 +100,27 @@ fn old_write(borrower_name: &str, book: Vec<&str>) {
     println!("Has total amount been paid(y/n)?");
     read_input(&mut paid);
     if paid.trim().to_lowercase() == "y" {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .append(true)
-            .open(format!("members/{}.txt", borrower_name))
-            .unwrap();
+        println!(
+            "{}, {}",
+            chrono::Local::now().format("%d-%m-%y %H:%M").to_string(),
+            (chrono::Local::now() + Duration::days(10))
+                .format("%d-%m-%y %H:%M")
+                .to_string(),
+        );
+        // let mut file = OpenOptions::new()
+        //     .write(true)
+        //     .append(true)
+        //     .open(format!("members/{}.txt", borrower_name))
+        //     .unwrap();
 
-        file.write_all(
-            format!(
-                "{},{},09-01-19 19:53,19-01-19 19:53,not returned\n",
-                book[1], book[4]
-            )
-            .as_bytes(),
-        )
-        .unwrap();
+        // file.write_all(
+        //     format!(
+        //         "{},{},09-01-19 19:53,19-01-19 19:53,not returned\n",
+        //         book[1], book[4]
+        //     )
+        //     .as_bytes(),
+        // )
+        // .unwrap();
     } else {
         println!("Book was not borrowed");
     }
