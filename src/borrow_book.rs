@@ -100,27 +100,25 @@ fn old_write(borrower_name: &str, book: Vec<&str>) {
     println!("Has total amount been paid(y/n)?");
     read_input(&mut paid);
     if paid.trim().to_lowercase() == "y" {
-        println!(
-            "{}, {}",
-            chrono::Local::now().format("%d-%m-%y %H:%M").to_string(),
-            (chrono::Local::now() + Duration::days(10))
-                .format("%d-%m-%y %H:%M")
-                .to_string(),
-        );
-        // let mut file = OpenOptions::new()
-        //     .write(true)
-        //     .append(true)
-        //     .open(format!("members/{}.txt", borrower_name))
-        //     .unwrap();
+        let current_date = chrono::Local::now().format("%d-%m-%y %H:%M").to_string();
+        let return_date = (chrono::Local::now() + Duration::days(10))
+            .format("%d-%m-%y %H:%M")
+            .to_string();
 
-        // file.write_all(
-        //     format!(
-        //         "{},{},09-01-19 19:53,19-01-19 19:53,not returned\n",
-        //         book[1], book[4]
-        //     )
-        //     .as_bytes(),
-        // )
-        // .unwrap();
+        let mut file = OpenOptions::new()
+            .write(true)
+            .append(true)
+            .open(format!("members/{}.txt", borrower_name))
+            .unwrap();
+
+        file.write_all(
+            format!(
+                "{},{},{},{},not returned\n",
+                book[1], book[4], current_date, return_date
+            )
+            .as_bytes(),
+        )
+        .unwrap();
     } else {
         println!("Book was not borrowed");
     }
