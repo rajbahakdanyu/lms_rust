@@ -121,7 +121,7 @@ fn old_write(borrower_name: &str, book: Vec<&str>) {
         ) {
             Err(why) => panic!("Error: {}", why),
             Ok(_) => {
-                database();
+                database("b".to_string(), book);
             }
         }
     } else {
