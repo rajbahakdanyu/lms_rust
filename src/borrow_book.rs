@@ -3,8 +3,8 @@ use crate::utils::{get_booklist, read_booklist, read_input};
 
 use chrono::Duration;
 use regex::Regex;
-use std::fs;
 use std::fs::OpenOptions;
+use std::fs::{self, File};
 use std::io::Write;
 
 pub fn borrow_book() {
@@ -168,4 +168,41 @@ fn new_borrower(borrower_name: &str) {
 
 fn new_write(borrower_name: &str, book: Vec<&str>) {
     println!("The price for {} is {}", book[1], book[4]);
+
+    let mut paid = String::new();
+    println!("Has total amount been paid(y/n)?");
+    read_input(&mut paid);
+    if paid.trim().to_lowercase() == "y" {
+        let current_date = chrono::Local::now().format("%d-%m-%y %H:%M").to_string();
+        let return_date = (chrono::Local::now() + Duration::days(10))
+            .format("%d-%m-%y %H:%M")
+            .to_string();
+
+        let mut namelist = OpenOptions::new()
+            .write(true)
+            .append(true)
+            .open("namelist.txt")
+            .unwrap();
+
+        namelist
+            .write_all(format!("{}\n", borrower_name).as_bytes())
+            .unwrap();
+
+        let mut file = File::create(format!("members/{}.txt", borrower_name)).unwrap();
+
+        match file.write_all(
+            format!(
+                "{},{},{},{},not returned\n",
+                book[1], book[4], current_date, return_date
+            )
+            .as_bytes(),
+        ) {
+            Err(why) => panic!("Error: {}", why),
+            Ok(_) => {
+                database("b".to_string(), book);
+            }
+        }
+    } else {
+        println!("Book was not borrowed");
+    }
 }
