@@ -80,10 +80,23 @@ fn book_return(name: &str, book: String, return_list: Vec<&str>) {
     let current = chrono::Local::now().format("%d-%m-%y %H:%M").to_string();
     let current_date = chrono::NaiveDateTime::parse_from_str(&current, "%d-%m-%y %H:%M").unwrap();
     let deadline = chrono::NaiveDateTime::parse_from_str(return_list[3], "%d-%m-%y %H:%M").unwrap();
+    let mut paid = String::new();
 
     if current_date > deadline {
+        let diff = (current_date - deadline).num_days() as f64;
+        let fine = diff * 0.4 * return_list[1].to_string().parse::<f64>().unwrap();
         println!("Past deadline");
+        println!("Please pay the fine of {:.2}", fine);
+        println!("Has the fine been paid(y/n)?");
+        read_input(&mut paid);
     } else {
         println!("Within deadline");
+        paid = "y".to_string();
+    }
+
+    if paid.trim() == "y" {
+        println!("Book was returned");
+    } else {
+        println!("Book was not returned");
     }
 }
