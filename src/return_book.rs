@@ -61,7 +61,7 @@ pub fn return_book() {
                     }
 
                     if check_book {
-                        println!("{} has not borrowed {}\n", borrower_name.trim(), book_name);
+                        println!("{} has not borrowed {}", borrower_name.trim(), book_name);
                     } else {
                         book_return(borrower_name.trim(), book_name, return_list);
                     }
@@ -77,5 +77,13 @@ pub fn return_book() {
 }
 
 fn book_return(name: &str, book: String, return_list: Vec<&str>) {
-    println!("Book returned");
+    let current = chrono::Local::now().format("%d-%m-%y %H:%M").to_string();
+    let current_date = chrono::NaiveDateTime::parse_from_str(&current, "%d-%m-%y %H:%M").unwrap();
+    let deadline = chrono::NaiveDateTime::parse_from_str(return_list[3], "%d-%m-%y %H:%M").unwrap();
+
+    if current_date > deadline {
+        println!("Past deadline");
+    } else {
+        println!("Within deadline");
+    }
 }
