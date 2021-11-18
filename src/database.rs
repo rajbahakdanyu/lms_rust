@@ -43,7 +43,7 @@ pub fn database(return_type: String, book: Vec<&str>) {
     } else if return_type == "r" {
         for elem in booklist {
             let temp: Vec<&str> = elem.trim().split(",").collect();
-            println!("{:?}", temp);
+
             if temp[0] == book[0] {
                 file.write(
                     format!(
