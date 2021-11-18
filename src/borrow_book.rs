@@ -21,7 +21,7 @@ pub fn borrow_book() {
                 if temp.iter().any(|&i| i == borrower_name.trim()) {
                     old_borrower(borrower_name.trim())
                 } else {
-                    new_borrower()
+                    new_borrower(borrower_name.trim())
                 }
             }
         }
@@ -129,6 +129,43 @@ fn old_write(borrower_name: &str, book: Vec<&str>) {
     }
 }
 
-fn new_borrower() {
-    println!("New borrower");
+fn new_borrower(borrower_name: &str) {
+    let list = get_booklist();
+    let booklist: Vec<&str> = list.trim().split("\r\n").collect();
+    let re = Regex::new(r"(^[0-9]*$)").unwrap();
+    let mut book_id = String::new();
+    println!("");
+    read_booklist();
+    println!("Enter book id: ");
+    read_input(&mut book_id);
+
+    if re.is_match(book_id.trim()) {
+        let mut check_book = false;
+        let mut chosen_book = Vec::new();
+
+        for book in booklist {
+            let each_book: Vec<&str> = book.split(",").collect();
+
+            if each_book[0] == book_id.trim() {
+                check_book = true;
+                chosen_book = each_book;
+            }
+        }
+
+        if check_book {
+            if chosen_book[3].to_string().parse::<i32>().unwrap() > 0 {
+                new_write(borrower_name, chosen_book);
+            } else {
+                println!("{} is out of stock\n", chosen_book[1]);
+            }
+        } else {
+            println!("Book does not exit\n");
+        }
+    } else {
+        println!("Book Id should be a number\n");
+    }
+}
+
+fn new_write(borrower_name: &str, book: Vec<&str>) {
+    println!("The price for {} is {}", book[1], book[4]);
 }
