@@ -1,3 +1,4 @@
+use crate::database::database;
 use crate::utils::{get_booklist, read_booklist, read_input};
 
 use chrono::Duration;
@@ -111,14 +112,18 @@ fn old_write(borrower_name: &str, book: Vec<&str>) {
             .open(format!("members/{}.txt", borrower_name))
             .unwrap();
 
-        file.write_all(
+        match file.write_all(
             format!(
                 "{},{},{},{},not returned\n",
                 book[1], book[4], current_date, return_date
             )
             .as_bytes(),
-        )
-        .unwrap();
+        ) {
+            Err(why) => panic!("Error: {}", why),
+            Ok(_) => {
+                database();
+            }
+        }
     } else {
         println!("Book was not borrowed");
     }
